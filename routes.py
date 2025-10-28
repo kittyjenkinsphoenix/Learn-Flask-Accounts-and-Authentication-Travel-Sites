@@ -72,7 +72,7 @@ def user(username):
 @app.route('/')
 def index():
     posts = Post.query.all()
-    return render_template('landing_page.html', posts=posts)
+    return render_template('landing.html', posts=posts)
 
 
 
