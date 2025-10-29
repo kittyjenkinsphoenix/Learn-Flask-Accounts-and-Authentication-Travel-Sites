@@ -1,6 +1,7 @@
 from flask import request, render_template, flash, redirect, url_for
 from urllib.parse import urlparse
 from flask_login import current_user, login_user, logout_user, login_required
+from sqlalchemy.exc import IntegrityError
 from app import app, db
 from models import User, Post
 from forms import RegistrationForm, LoginForm, DestinationForm
@@ -36,12 +37,19 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        # Create the user object
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
+
+        # Add and commit inside try/except to catch unique constraint errors
         db.session.add(user)
-        db.session.commit()
-        db.session.add(user)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            flash('Username or email already exists. Please choose a different one.')
+            return redirect(url_for('register'))
+
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
