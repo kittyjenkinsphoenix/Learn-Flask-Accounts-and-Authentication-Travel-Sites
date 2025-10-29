@@ -89,10 +89,3 @@ License
 
 This project includes the included LICENSE file. Use it as a learning resource.
 
-If you'd like, I can also:
-
-- Add a `requirements.txt` listing pinned versions
-- Improve the README with a screenshot or example data
-- Add inline form error display in the templates
-
-Tell me which of those you'd like next and I'll implement it.
