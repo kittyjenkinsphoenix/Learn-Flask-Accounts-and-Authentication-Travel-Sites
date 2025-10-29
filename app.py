@@ -10,9 +10,9 @@ db = SQLAlchemy(app)
 login = LoginManager(app)
 login.login_view = 'login'
 
-from routes import *  # This needs to be after db initialization
+from routes import *  
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Create tables if they don't exist
+        db.create_all()  
     app.run(debug=True)
